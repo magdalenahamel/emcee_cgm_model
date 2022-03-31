@@ -34,6 +34,9 @@ import functools
 import datetime
 #### Define the spectral resolution ####
 
+cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
+H = cosmo.H(z_median)
+
 zabs = 0.77086
 lam0 = 2796.35
 
