@@ -1,10 +1,6 @@
 import utils as csu
 import pandas as pd
 
-import cgmspec.disco as cgm
-from cgmspec.sampledist import RanDist
-
-from cgmspec import utils as csu
 import numpy as np
 import matplotlib.pyplot as plt
 from astropy import constants as const
@@ -16,7 +12,7 @@ from mpdaf.obj import WCS, WaveCoord
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 
-from cgmspec.sampledist import RanDist
+from sampledist import RanDist
 
 from scipy.special import wofz
 from scipy.special import gamma
