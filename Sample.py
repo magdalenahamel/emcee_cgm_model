@@ -34,8 +34,6 @@ import functools
 import datetime
 #### Define the spectral resolution ####
 
-cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
-H = cosmo.H(z_median)
 
 zabs = 0.77086
 lam0 = 2796.35
@@ -342,7 +340,22 @@ class Sample:
         #wave = np.arange(4849.58349609375,5098.33349609375+0.125, w_pix)
         #vels_wave = (const.c.to('km/s').value * ((wave/ (2796.35 * (1 + zabs))) - 1))
 
+        z_median = np.median(z_gal_magiicat)
+        R_vir_min = np.min(R_vir_magiicat)
+        R_vir_max = np.max(R_vir_magiicat)
+        #print('1')
+        cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
+        H = cosmo.H(z_median)
+        vel_min = R_vir_min * u.kpc * H / 0.1
+        vel_min = vel_min.to(u.km/u.second).value
+        #print('2')
+        vel_max = R_vir_max * u.kpc * H / 0.1
+        vel_max = vel_max.to(u.km/u.second).value
 
+        vels = np.linspace(vel_min,vel_max,1000)
+
+        vels_dist = rot_vel_dist(vels,0.061,10**2.06, 0.66, 2.10)
+        fN_v = RanDist(vels, vels_dist)
         
         #print('3')
         d_alpha = list(zip(ds,alphas))
