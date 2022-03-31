@@ -31,7 +31,7 @@ from numpy import float32
 import concurrent.futures
 import itertools
 import functools
-
+import datetime
 #### Define the spectral resolution ####
 
 zabs = 0.77086
@@ -104,6 +104,7 @@ v_dist_magii = np.histogram(v_magiicat,100,(np.min(v_magiicat),np.max(v_magiicat
 
 v_vals = np.linspace(np.min(v_magiicat),np.max(v_magiicat),100)
 f_v = RanDist(v_vals, v_dist_magii)
+
 
 '''N distribution'''
 
@@ -323,6 +324,7 @@ class Sample:
 
 
     def Nielsen_sample(self, prob_r_cs, rmax, por_r_vir):
+        begin_time = datetime.datetime.now()
         #print('runing Nielsen_sample')
         dmax = self.dmax
         filling_factor = self.filling_factor
@@ -338,22 +340,7 @@ class Sample:
         #vels_wave = (const.c.to('km/s').value * ((wave/ (2796.35 * (1 + zabs))) - 1))
 
 
-        z_median = np.median(z_gal_magiicat)
-        R_vir_min = np.min(R_vir_magiicat)
-        R_vir_max = np.max(R_vir_magiicat)
-        #print('1')
-        cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
-        H = cosmo.H(z_median)
-        vel_min = R_vir_min * u.kpc * H / 0.1
-        vel_min = vel_min.to(u.km/u.second).value
-        #print('2')
-        vel_max = R_vir_max * u.kpc * H / 0.1
-        vel_max = vel_max.to(u.km/u.second).value
-
-        vels = np.linspace(vel_min,vel_max,1000)
-
-        vels_dist = rot_vel_dist(vels,0.061,10**2.06, 0.66, 2.10)
-        fN_v = RanDist(vels, vels_dist)
+        
         #print('3')
         d_alpha = list(zip(ds,alphas))
 
@@ -409,7 +396,8 @@ class Sample:
         random_specs = [r[2] for r in results]
         
        # (equi_wid_i, results_nr[0], speci)
-
+        
+        print(datetime.datetime.now() - begin_time)
         return(np.asarray([np.asarray(random_nr_clouds),
         np.asarray(random_specs),
         np.asarray(alpha_i),
