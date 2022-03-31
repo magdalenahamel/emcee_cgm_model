@@ -1,4 +1,4 @@
-from emcee_cgm_model import utils as csu
+import utils as csu
 import pandas as pd
 
 import cgmspec.disco as cgm
