@@ -62,8 +62,8 @@ D_R_vir_churchill_iso = churchill_iso['etav'].to_numpy()
 W_r_churchill_iso = churchill_iso['Wr'].to_numpy()
 D_churchill_iso = churchill_iso['D'].to_numpy()
 
-chen_iso = pd.read_csv('chen_data.txt', error_bad_lines=False, delim_whitespace=True)
-D_chen = chen_iso['rho'].to_numpy()
+#cfchen_iso = pd.read_csv('chen_data.txt', error_bad_lines=False, delim_whitespace=True)
+#D_chen = chen_iso['rho'].to_numpy()
 
 
 
