@@ -1,5 +1,5 @@
 """This Class Disco represents the CGM of a galaxy from a disc model"""
-
+import numpy as np
 #logN = np.arange(12, 16, 0.1)
 #logN_PDF = logN**(-0.4)
 #logN_dist = RanDist(logN, logN_PDF)
