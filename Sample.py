@@ -28,6 +28,8 @@ import concurrent.futures
 import itertools
 import functools
 import datetime
+
+from disco import Disco
 #### Define the spectral resolution ####
 
 
@@ -285,7 +287,7 @@ def get_nielsen_sample(prob_r_cs,csize,hv, filling_factor,rmax,por_r_vir, zabs,h
     random_r_vir_i = par_param[3] 
     random_vels_i = par_param[4]
    # print('defi seg param')
-    model = cgm.Disco(h, random_inclis_i, Rcore=0.1)
+    model = Disco(h, random_inclis_i, Rcore=0.1)
             #print('loop',bs,csize,h,hv)
     #print('defi primer model')
     cells = get_cells(model,d,alpha,csize, random_r_vir_i,prob_r_cs,random_vels_i,hv, filling_factor,  rmax, por_r_vir)
