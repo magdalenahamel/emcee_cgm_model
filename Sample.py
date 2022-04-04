@@ -30,16 +30,17 @@ import functools
 import datetime
 
 from disco import Disco
+
 #### Define the spectral resolution ####
 
 
-zabs = 0.77086
+zabs_ = 0.656
 lam0 = 2796.35
 
 vel_min = -1500
 vel_max = 1500
-lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs)) 
-lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs)) 
+lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs_)) 
+lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs_)) 
 
 w_spectral = 0.03
 
@@ -310,7 +311,7 @@ def get_nielsen_sample(prob_r_cs,csize,hv, filling_factor,rmax,por_r_vir, zabs,h
 class Sample:
     """Represents a sample of MgII absorbers"""
 
-    def __init__(self, filling_factor, dmax, h=10, w_pix = 0.03, zabs=0.77086, csize=1, hv=10, sample_size=2000):
+    def __init__(self, filling_factor, dmax, h=10, w_pix = 0.03, zabs=0.656, csize=1, hv=10, sample_size=2000):
         """c"""
         self.filling_factor  = filling_factor
         self.dmax = dmax
