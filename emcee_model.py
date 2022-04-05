@@ -252,18 +252,18 @@ ydata = W_r_churchill_iso
 #ydata = None #Define the y-value array of your data (same shape as xdata)
 #sigma = None #Define the error in the ydata (float or same shape as ydata)
 paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
-parammins =  [0.01, 0.01,0.1,0.01] #Define the minimum values for each parameter
-parammaxs = [10, 10, 50, 50] #Define the maximum values for each parameter
+parammins =  [0.01, 0.01,1,0.01] #Define the minimum values for each parameter
+parammaxs = [10, 10, 50, 100] #Define the maximum values for each parameter
 
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
-nwalkers = 8 # Number of walkers
-nsteps = 1500 #Number of steps each walker takes
+nwalkers = 15 # Number of walkers
+nsteps = 2000 #Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=20
 
 
-filename = "try_1.h5"
+filename = "try_2.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -382,15 +382,15 @@ fig, axs = plt.subplots(ndim,1)
 for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
-plt.show()
-fig.savefig('mcmc_chains_1.pdf')
-plt.close(fig)
+
+fig.savefig('mcmc_chains_2.pdf')
+
 
 #Make a corner plot (how each parameter scales with another)
 #Configure the data for the corner package to understand, removing the burn-in values
 data = chains[:, nburn:, :]
 
 #Make the corner plot
-fig= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig.savefig('mcmc_corner_1.pdf')
-plt.show()
+fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
+fig1.savefig('mcmc_corner_2.pdf')
+
