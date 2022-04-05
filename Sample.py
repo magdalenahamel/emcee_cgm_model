@@ -45,7 +45,7 @@ lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs_))
 w_spectral = 0.03
 
 wave = np.arange(lam_min,lam_max+w_spectral, w_spectral)
-vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs))) - 1))
+vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs_))) - 1))
 
 ##### Data ####
 
