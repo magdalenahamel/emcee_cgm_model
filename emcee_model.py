@@ -24,6 +24,7 @@ import matplotlib as mpl
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import SkyCoord
+import corner 
 
 def prob_hit_log_lin(r, r_vir, a, b, por_r_vir = 0.5):
     r_t = r/r_vir
