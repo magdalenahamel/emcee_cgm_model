@@ -5,10 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from astropy import constants as const
 
-from mpdaf.obj import Image
-from mpdaf.obj import Cube
-from mpdaf.obj import WCS, WaveCoord
-
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 
