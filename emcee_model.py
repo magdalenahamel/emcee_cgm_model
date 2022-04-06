@@ -264,7 +264,7 @@ nsteps = 1500 #Number of steps each walker takes
 nburn=20
 
 
-filename = "try_3.h5"
+filename = "try_4.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -347,7 +347,7 @@ def loglikelihood(params):
 def logPosterior(params):
     #The  function MCMC evaluates; Bayes theorem in log space
     #p(model params | data) * p(data)
-    print('bbbbbb', params)
+  
     return loglikelihood(params) + np.log(totalprior(params, parammins, parammaxs))
 
 
@@ -384,7 +384,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_3.pdf')
+fig.savefig('mcmc_chains_4.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -393,5 +393,5 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_3.pdf')
+fig1.savefig('mcmc_corner_4.pdf')
 
