@@ -26,6 +26,8 @@ from astropy.coordinates import SkyCoord
 from astropy.coordinates import SkyCoord
 import corner 
 import telepot
+import matplotlib
+matplotlib.use('Agg')
 
 bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
 
