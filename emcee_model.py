@@ -25,6 +25,9 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import SkyCoord
 import corner 
+import telepot
+
+bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
 
 def prob_hit_log_lin(r, r_vir, a, b, por_r_vir = 0.5):
     r_t = r/r_vir
@@ -366,6 +369,8 @@ for ii, pmin in enumerate(parammins):
 #Run the mcmc sampler!
 sampler.run_mcmc(init_guess, nsteps, progress=True)
 
+bot.sendMessage(2079147193, 'mcmc listo')
+
 ##############################
 #Playing with the output of the sampler
 
@@ -394,4 +399,6 @@ data = chains[:, nburn:, :]
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
 fig1.savefig('mcmc_corner_6.pdf')
+
+bot.sendMessage(2079147193, 'Codigo listo :)')
 
