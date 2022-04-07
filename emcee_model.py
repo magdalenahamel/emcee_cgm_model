@@ -267,7 +267,7 @@ nsteps = 1500 #Number of steps each walker takes
 nburn=20
 
 
-filename = "try_6.h5"
+filename = "try_7.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -389,7 +389,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_6.pdf')
+fig.savefig('mcmc_chains_7.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -398,7 +398,7 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_6.pdf')
+fig1.savefig('mcmc_corner_7.pdf')
 
 bot.sendMessage(2079147193, 'Codigo listo :)')
 
