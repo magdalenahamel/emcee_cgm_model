@@ -269,7 +269,7 @@ nsteps = 2000 #Number of steps each walker takes
 nburn=20
 
 
-filename = "try_9.h5"
+filename = "try_10.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -359,7 +359,7 @@ def logPosterior(params):
 ######################
 #Setup the MCMC sampler and run it!
 
-sampler = emcee.EnsembleSampler(nwalkers, ndim, logPosterior, backend=backend)
+sampler = emcee.EnsembleSampler(nwalkers, ndim, logPosterior, backend=backend, a=3)
 
 #Define the starting position of each walker, for each parameter
 init_guess = np.zeros((nwalkers,ndim))
@@ -391,7 +391,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_9.pdf')
+fig.savefig('mcmc_chains_10.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -400,7 +400,7 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_9.pdf')
+fig1.savefig('mcmc_corner_10.pdf')
 
 bot.sendMessage(2079147193, 'Codigo listo :)')
 
