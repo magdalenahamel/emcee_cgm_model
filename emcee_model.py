@@ -30,6 +30,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
+bot.sendMessage(2079147193, 'Empezó codico MCMC')
 
 def prob_hit_log_lin(r, r_vir, a, b, por_r_vir = 0.5):
     r_t = r/r_vir
