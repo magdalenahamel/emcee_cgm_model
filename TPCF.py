@@ -218,7 +218,7 @@ def TPCF_f(bs, csize, hs, hv):
     list_res_i = list(results_i)
 
     results_tpcf_face_edge.append(list_res_i[0])
-    results_tpcf_edge_edge.append(list_res_i[1])
+    results_tpcf_face_edge.append(list_res_i[1])
 
 
 
