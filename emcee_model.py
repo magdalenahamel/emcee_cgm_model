@@ -52,18 +52,62 @@ e_Wr_no_upper = e_Wr[~con_upper]
 
 all_d = np.concatenate((D_R_vir_churchill_no_upper, D_R_vir_churchill_upper))
 
-
-def EW_D_model(params):
+#####for runing 4 params #####
+'''def EW_D_model(params):
     bs = params[0] # characteristic radius of the exponential function (it is accually a porcentage of Rvir) in log scale to make the range more homogeneous in lin scale
     csize = params[1] #poner en escala mas separada
     hs = params[2] #bajar un poco para que no sea un  1,10,20
     hv = params[3] #bajar maximo a 100
 
-    zabs = 0.77086
+    zabs = 0.656
     lam0 = 2796.35
 
-    vel_min = -1000
-    vel_max = 1000
+    vel_min = -1500
+    vel_max = 1500
+    lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+    lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+
+    w_spectral = 0.03
+
+    wave = np.arange(lam_min,lam_max+w_spectral, w_spectral)
+    vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs))) - 1))
+
+### run the model in the parameter grid
+
+    results_Wr = []
+    results_D = []
+    results_R_vir = []
+    results_specs = []
+    results_tpcf_minor = []
+    results_tpcf_major = []
+
+    exp_fac = sample.Sample(prob_hit_log_lin,200,sample_size=200, csize=csize, h=hs, hv=hv)
+    exp_results_1 = exp_fac.Nielsen_sample(np.log(100),bs,0.2)
+
+    E_W_r = exp_results_1[8]
+    D = exp_results_1[3]
+    R_vir = exp_results_1[7]
+
+    X1 = D/R_vir
+    Y1 = E_W_r
+    condY1 = Y1 > 0.03
+    X1 = X1[condY1]
+    Y1 = Y1[condY1]
+
+    return(X1,Y1)'''
+
+##### for running 2 params #####
+def EW_D_model(params):
+    bs = params[0] # characteristic radius of the exponential function (it is accually a porcentage of Rvir) in log scale to make the range more homogeneous in lin scale
+    csize = params[1] #poner en escala mas separada
+    hs = 10 #bajar un poco para que no sea un  1,10,20
+    hv = 60 #bajar maximo a 100
+
+    zabs = 0.656
+    lam0 = 2796.35
+
+    vel_min = -1500
+    vel_max = 1500
     lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
     lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
 
@@ -95,6 +139,7 @@ def EW_D_model(params):
     Y1 = Y1[condY1]
 
     return(X1,Y1)
+
 
 #define likelihood function
 ### 2D KS test ###
@@ -258,19 +303,27 @@ ydata = W_r_churchill_iso
 #xdata = None #Define the x-value array of your data
 #ydata = None #Define the y-value array of your data (same shape as xdata)
 #sigma = None #Define the error in the ydata (float or same shape as ydata)
-paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
-parammins =  [0.01, 0.01,1,0.01] #Define the minimum values for each parameter
-parammaxs = [10, 10, 50, 100] #Define the maximum values for each parameter
+
+###### for running for parameters ############
+#paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
+#parammins =  [0.01, 0.01,1,0.01] #Define the minimum values for each parameter
+#parammaxs = [10, 10, 50, 100] #Define the maximum values for each parameter
+
+####### for running two parameters ###########
+paramnames = ['bs', 'cs'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
+parammins =  [0.01, 0.01] #Define the minimum values for each parameter
+parammaxs = [10, 10] #Define the maximum values for each parameter
+
 
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
-nwalkers = 100 # Number of walkers
-nsteps = 200 #Number of steps each walker takes
+nwalkers = 50 # Number of walkers
+nsteps = 1000 #Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=20
 
 
-filename = "try_14.h5"
+filename = "try_15.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -392,7 +445,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_14.pdf')
+fig.savefig('mcmc_chains_15.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -401,7 +454,7 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_14.pdf')
+fig1.savefig('mcmc_corner_15.pdf')
 
 bot.sendMessage(2079147193, 'Codigo listo :)')
 
