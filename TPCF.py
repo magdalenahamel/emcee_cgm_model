@@ -28,6 +28,10 @@ from astropy.convolution import convolve, Gaussian1DKernel
 import time
 import os
 import Sample as sample
+import telepot
+
+bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
+bot.sendMessage(2079147193, 'Empezó codico TPCF')
 
 minor_tpcf = pd.read_csv('2minor.txt', delimiter='     ', engine='python')
 major_tpcf = pd.read_csv('2major.txt', delimiter='     ', engine='python')
@@ -266,6 +270,7 @@ def run_TPCF(bs, csize, h, hv, param_name):
     np.save(dirName+'/inclis_s', results_s[8])
     np.save(dirName+'/R_vir_s', results_s[9])
     np.save(dirName+'/Wr_s', results_s[10])
+    
 
     np.save(dirName + '/tpcf_minor_major_b',results_b[0])
     np.save(dirName + '/tpcf_face_edge_b',results_b[1])
@@ -279,3 +284,9 @@ def run_TPCF(bs, csize, h, hv, param_name):
     np.save(dirName+'/inclis_b', results_b[8])
     np.save(dirName+'/R_vir_b', results_b[9])
     np.save(dirName+'/Wr_b', results_b[10])
+    
+run_TPCF(bs_s, csize_n, h_n, hv_n, 'bs')
+run_TPCF(bs_n, csize_s, h_n, hv_n, 'csize')
+run_TPCF(bs_n, csize_n, h_s, hv_n, 'h')
+run_TPCF(bs_n, csize_n, h_n, hv_s, 'hv')
+bot.sendMessage(2079147193, 'TPCF listo :)')
