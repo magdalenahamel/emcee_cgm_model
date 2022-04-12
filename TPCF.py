@@ -197,14 +197,6 @@ def TPCF_f(bs, csize, hs, hv):
 
 
     print('empieza TPCF')
-
-'''with concurrent.futures.ProcessPoolExecutor() as executor:
-    results = executor.map(TPCF, specs_tot)
-    list_res = list(results)
-
-    results_tpcf_minor.append(list_res[0])
-    results_tpcf_major.append(list_res[1])'''
-
     results = map(TPCF, specs_tot)
     list_res = list(results)
 
