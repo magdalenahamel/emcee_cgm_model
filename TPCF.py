@@ -62,7 +62,18 @@ edge_bins = edge_vel - 5
 edge_bins = np.append(edge_bins, edge_bins[-1] +10)
 edge_tpcf_val = edge_tpcf['TPCF'].to_numpy()
 edge_error = np.abs(edge_tpcf['minus_error'].to_numpy() - edge_tpcf['plus_error'].to_numpy())
+zabs = 0.656
+lam0 = 2796.35
 
+vel_min = -1500
+vel_max = 1500
+lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+
+w_spectral = 0.03
+
+wave = np.arange(lam_min,lam_max+w_spectral, w_spectral)
+vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs))) - 1))
 def filtrogauss(R, spec_res, lam_0, flux):
     del_lam = lam_0/R
     del_lam_pix = del_lam/spec_res
@@ -149,8 +160,8 @@ def TPCF_f(bs, csize, hs, hv):
     zabs = 0.656
     lam0 = 2796.35
 
-    vel_min = -1000
-    vel_max = 1000
+    vel_min = -1500
+    vel_max = 1500
     lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
     lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
 
