@@ -149,8 +149,8 @@ def TPCF_f(bs, csize, hs, hv):
     zabs = 0.656
     lam0 = 2796.35
 
-    vel_min = -1500
-    vel_max = 1500
+    vel_min = -1000
+    vel_max = 1000
     lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
     lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
 
@@ -174,7 +174,7 @@ def TPCF_f(bs, csize, hs, hv):
     results_tpcf_minor_major = []
     results_tpcf_face_edge = []
 
-    exp_fill_fac = sample.Sample(prob_hit_log_lin,200,sample_size=300, csize=csize, h=hs, hv=hv)
+    exp_fill_fac = sample.Sample(prob_hit_log_lin,200,sample_size=200, csize=csize, h=hs, hv=hv)
     e3_a_1 = exp_fill_fac.Nielsen_sample(np.log(100),bs,0.2)
     cond_spec = e3_a_1[0] == 0
     spec_abs = e3_a_1[1][~cond_spec]
