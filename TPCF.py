@@ -233,7 +233,7 @@ hv_n = 10
 bs_s = [0.01, 10]
 csize_s =  [0.01, 10]
 h_s = [1, 30]
-hv_n = [0.001, 100]
+hv_s = [0.001, 100]
 
 def run_TPCF(bs, csize, h, hv, param_name):
     if param_name == 'bs':
