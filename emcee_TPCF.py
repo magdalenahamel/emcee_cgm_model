@@ -208,8 +208,8 @@ def TPCF(params):
     return(results)
 
 
-xdata = D_R_vir_churchill_iso  #array with (x,y) data coordinates (degrees)
-ydata = W_r_churchill_iso
+#xdata = D_R_vir_churchill_iso  #array with (x,y) data coordinates (degrees)
+#ydata = W_r_churchill_iso
 #sigma = out_l[:,5][~np.isnan(out_l[:,4])]
 #
 #
