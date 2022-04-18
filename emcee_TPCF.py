@@ -33,6 +33,18 @@ matplotlib.use('Agg')
 bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
 bot.sendMessage(2079147193, 'Empezó codico MCMC TPCF')
 
+zabs = 0.656
+lam0 = 2796.35
+
+vel_min = -1500
+vel_max = 1500
+lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+
+w_spectral = 0.03
+wave = np.arange(lam_min,lam_max+w_spectral, w_spectral)
+vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs))) - 1))
+
 def filtrogauss(R, spec_res, lam_0, flux):
     del_lam = lam_0/R
     del_lam_pix = del_lam/spec_res
