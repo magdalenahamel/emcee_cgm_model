@@ -170,17 +170,17 @@ def TPCF(params):
     #cond_edge = inclis_abs > 57
 
     #spec_minor = spec_abs[cond_minor]
-    spec_major = spec_abs[cond_major]
+    specs_major = spec_abs[cond_major]
 
     #spec_face = spec_abs[cond_face]
     #spec_edge = spec_abs[cond_edge]
 
-    specs_tot = (spec_major,'major')
+    specs_tot = (specs_major,'major')
     #specs_tot_i = [(spec_face,'face'), (spec_edge, 'edge')]
 
 
     print('empieza TPCF')
-    results = TPCF_aux(specs_major)
+    results = TPCF_aux(specs_tot)
     #results = map(TPCF, specs_major)
     #list_res = list(results)
 
