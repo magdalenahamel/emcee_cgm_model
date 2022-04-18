@@ -304,7 +304,7 @@ def loglikelihood(params):
             return(0)
     ydata = TPCF(params)
     #print('W,D', model_Wr,model_D_R_vir )
-    print('like', np.log(p))
+    #print('like', np.log(p))
     return(np.nansum(-1.0*(ydata-y)**2 / sigma**2))
 
 
