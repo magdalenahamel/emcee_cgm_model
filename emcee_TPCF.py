@@ -12,6 +12,7 @@ from scipy.stats import genextreme
 
 import emcee
 from astropy import constants as const
+from astropy.convolution import convolve, Gaussian1DKernel
 from numpy import random
 import math as m
 
@@ -31,6 +32,13 @@ matplotlib.use('Agg')
 
 bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
 bot.sendMessage(2079147193, 'Empezó codico MCMC TPCF')
+
+def filtrogauss(R, spec_res, lam_0, flux):
+    del_lam = lam_0/R
+    del_lam_pix = del_lam/spec_res
+    gauss_kernel = (Gaussian1DKernel(del_lam_pix))
+    gausflux = convolve(flux, gauss_kernel)
+    return(gausflux)
 
 def prob_hit_log_lin(r, r_vir, a, b, por_r_vir = 0.5):
     r_t = r/r_vir
