@@ -177,7 +177,7 @@ def TPCF(params):
     results_tpcf_minor_major = []
     results_tpcf_face_edge = []
 
-    exp_fill_fac = sample.Sample(prob_hit_log_lin,200,sample_size=100, csize=csize, h=hs, hv=hv)
+    exp_fill_fac = sample.Sample(prob_hit_log_lin,200,sample_size=200, csize=csize, h=hs, hv=hv)
     e3_a_1 = exp_fill_fac.Nielsen_sample(np.log(100),bs,0.2)
     cond_spec = e3_a_1[0] == 0
     spec_abs = e3_a_1[1][~cond_spec]
@@ -256,7 +256,7 @@ nsteps = 1000 #Number of steps each walker takes
 nburn=20
 
 
-filename = "try_2_TPCF.h5"
+filename = "try_3_TPCF.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -363,7 +363,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_2_TPCF.pdf')
+fig.savefig('mcmc_chains_3_TPCF.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -372,6 +372,6 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_2_TPCF.pdf')
+fig1.savefig('mcmc_corner_3_TPCF.pdf')
 
 bot.sendMessage(2079147193, 'Codigo listo TPCF:)')
