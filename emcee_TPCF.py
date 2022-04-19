@@ -250,7 +250,7 @@ parammaxs = [10, 10, 50, 100] #Define the maximum values for each parameter
 
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
-nwalkers = 5 # Number of walkers
+nwalkers = 8 # Number of walkers
 nsteps = 700 #Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=20
@@ -309,7 +309,7 @@ def loglikelihood(params):
     deg_of_free = len(y) - 4
     p=np.sum((ydata-y)**2 / sigma**2)
     p_t = chi2.sf(p,deg_of_free)
-    print(p_t)
+    print('like',p_t)
     return(p_t)
 
 
