@@ -76,6 +76,8 @@ major_error = np.abs(major_tpcf['minus_error'].to_numpy() - major_tpcf['plus_err
 
 ydata = major_tpcf_val
 sigma = major_error
+print('ydata', ydata)
+print('sigma',sigma)
 
 face_vel = face_tpcf['vel'].to_numpy()
 face_bins = face_vel - 5
