@@ -74,7 +74,7 @@ major_bins = np.append(major_bins, major_bins[-1] +10)
 major_tpcf_val = major_tpcf['TPCF'].to_numpy()
 major_error = np.abs(major_tpcf['minus_error'].to_numpy() - major_tpcf['plus_error'].to_numpy())
 
-y = major_tpcf_val
+ydata = major_tpcf_val
 sigma = major_error
 
 face_vel = face_tpcf['vel'].to_numpy()
@@ -293,6 +293,7 @@ def totalprior(params, parammins, parammaxs):
     print('cccccc', params, totprior)
     return totprior
 
+from scipy.stats.distributions import chi2
 
 #
 def loglikelihood(params):
@@ -302,12 +303,14 @@ def loglikelihood(params):
         totprior *= tophatPrior(param, parammins[ii], parammaxs[ii])
         if totprior == 0:
             return(0)
-    ydata = TPCF(params)
+    y = TPCF(params)
     #print('W,D', model_Wr,model_D_R_vir )
     #print('like', np.log(p))
-    p=np.nansum(-1.0*(ydata-y)**2 / sigma**2)
-    print('like', np.log(p))
-    return(np.log(p))
+    deg_of_free = len(y) - 4
+    p=np.sum((ydata-y)**2 / sigma**2)
+    p_t = chi2.sf(p,deg_of_free)
+    print(p_t)
+    return(p_t)
 
 
 '''def loglikelihood(params):
