@@ -308,6 +308,7 @@ def loglikelihood(params):
     #print('W,D', model_Wr,model_D_R_vir )
     #print('like', np.log(p))
     deg_of_free = len(y) - 4
+    print('deg', deg_of_free)
     p=np.sum((ydata-y)**2 / sigma**2)
     print('sum', p)
     p_t = chi2.sf(p,deg_of_free)
