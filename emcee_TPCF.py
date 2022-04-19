@@ -304,10 +304,12 @@ def loglikelihood(params):
         if totprior == 0:
             return(0)
     y = TPCF(params)
+    print('yyyy', y)
     #print('W,D', model_Wr,model_D_R_vir )
     #print('like', np.log(p))
     deg_of_free = len(y) - 4
     p=np.sum((ydata-y)**2 / sigma**2)
+    print('sum', p)
     p_t = chi2.sf(p,deg_of_free)
     print('like',p_t)
     return(p_t)
