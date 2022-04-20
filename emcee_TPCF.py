@@ -161,7 +161,7 @@ def TPCF(params):
     bs = params[0] # characteristic radius of the exponential function (it is accually a porcentage of Rvir) in log scale to make the range more homogeneous in lin scale
     csize = params[1] #poner en escala mas separada
     hs = params[2] #bajar un poco para que no sea un  1,10,20
-    hv = params[3] #bajar maximo a 100
+    hv = params[3] * hs #deje h_v como una fraccion de la altura h. Tiene mas sentido para mi 
 
     zabs = 0.656
     lam0 = 2796.35
@@ -242,7 +242,7 @@ def TPCF(params):
 ###### for running for parameters ############
 paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
 parammins =  [0.01, 0.01,1,0.01] #Define the minimum values for each parameter
-parammaxs = [10, 10, 50, 100] #Define the maximum values for each parameter
+parammaxs = [10, 10, 50, 10] #Define the maximum values for each parameter
 
 ####### for running two parameters ###########
 #paramnames = ['bs', 'cs'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
@@ -252,13 +252,13 @@ parammaxs = [10, 10, 50, 100] #Define the maximum values for each parameter
 
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
-nwalkers = 8 # Number of walkers
-nsteps = 700 #Number of steps each walker takes
+nwalkers = 10 # Number of walkers
+nsteps = 2000 #Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=20
 
 
-filename = "try_4_TPCF.h5"
+filename = "try_5_TPCF.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -312,7 +312,7 @@ def loglikelihood(params):
     deg_of_free = len(y) - 4
     print('deg', deg_of_free)
     p=np.sum((ydata-y)**2 / sigma**2)
-    p_t = -np.log(p)
+    p_t = -(1/2)*np.log(p)
     print('sum', p)
    # p_t = chi2.sf(p,deg_of_free)
     print('like',p_t)
@@ -372,7 +372,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_4_TPCF.pdf')
+fig.savefig('mcmc_chains_5_TPCF.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -381,6 +381,6 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_4_TPCF.pdf')
+fig1.savefig('mcmc_corner_5_TPCF.pdf')
 
 bot.sendMessage(2079147193, 'Codigo listo TPCF:)')
