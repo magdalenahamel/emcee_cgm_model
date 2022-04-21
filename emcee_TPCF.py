@@ -253,12 +253,12 @@ parammaxs = [10, 10, 50, 10] #Define the maximum values for each parameter
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
 nwalkers = 8 # Number of walkers
-nsteps = 500 #Number of steps each walker takes
+nsteps = 2000#Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=20
 
 
-filename = "try_6_TPCF.h5"
+filename = "try_7_TPCF.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -313,7 +313,7 @@ def loglikelihood(params):
     print('deg', deg_of_free)
     #p=np.sum((ydata-y)**2 / sigma**2)
     p=np.sum((ydata-y)**2)
-    p_t = -(1/2)*np.log(p)
+    p_t = -np.log(p)
     print('sum', p)
    # p_t = chi2.sf(p,deg_of_free)
     print('like',p_t)
@@ -373,7 +373,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_6_TPCF.pdf')
+fig.savefig('mcmc_chains_7_TPCF.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -382,6 +382,6 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_6_TPCF.pdf')
+fig1.savefig('mcmc_corner_7_TPCF.pdf')
 
 bot.sendMessage(2079147193, 'Codigo listo TPCF:)')
