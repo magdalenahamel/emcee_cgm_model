@@ -74,8 +74,8 @@ major_bins = np.append(major_bins, major_bins[-1] +10)
 major_tpcf_val = major_tpcf['TPCF'].to_numpy()
 major_error = np.abs(major_tpcf['minus_error'].to_numpy() - major_tpcf['plus_error'].to_numpy())
 
-ydata = major_tpcf_val
-sigma = major_error
+ydata = major_tpcf_val[:-3]
+sigma = major_error[:-3]
 print('ydata', ydata)
 print('sigma',sigma)
 
@@ -252,8 +252,8 @@ parammaxs = [10, 10, 50, 10] #Define the maximum values for each parameter
 
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
-nwalkers = 8 # Number of walkers
-nsteps = 2000#Number of steps each walker takes
+nwalkers = 10 # Number of walkers
+nsteps = 3000#Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=20
 
@@ -305,19 +305,18 @@ def loglikelihood(params):
         totprior *= tophatPrior(param, parammins[ii], parammaxs[ii])
         if totprior == 0:
             return(0)
-    y = TPCF(params)
+    yt = TPCF(params)
+    y = yt[:-3]
     print('yyyy', y)
     #print('W,D', model_Wr,model_D_R_vir )
     #print('like', np.log(p))
-    deg_of_free = len(y) - 4
     print('deg', deg_of_free)
     #p=np.sum((ydata-y)**2 / sigma**2)
-    p=np.sum((ydata-y)**2)
-    p_t = (-1)*np.log(p)
+    p=np.sum(-1.0*(ydata-y)**2/(2*sigma)**2)
+    logerr = (-0.5 * np.log(2.0 * math.pi * sigma**2))
     print('sum', p)
    # p_t = chi2.sf(p,deg_of_free)
-    print('like',p_t)
-    return(p_t)
+    return(np.nansum(logerr + p))
 
 
 '''def loglikelihood(params):
