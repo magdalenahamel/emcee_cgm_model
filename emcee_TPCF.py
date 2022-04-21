@@ -310,7 +310,7 @@ def loglikelihood(params):
     print('yyyy', y)
     #print('W,D', model_Wr,model_D_R_vir )
     #print('like', np.log(p))
-    print('deg', deg_of_free)
+    #print('deg', deg_of_free)
     #p=np.sum((ydata-y)**2 / sigma**2)
     p=np.sum(-1.0*(ydata-y)**2/(2*sigma)**2)
     logerr = (-0.5 * np.log(2.0 * math.pi * sigma**2))
