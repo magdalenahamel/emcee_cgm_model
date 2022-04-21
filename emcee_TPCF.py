@@ -313,7 +313,7 @@ def loglikelihood(params):
     print('deg', deg_of_free)
     #p=np.sum((ydata-y)**2 / sigma**2)
     p=np.sum((ydata-y)**2)
-    p_t = -np.log(p)
+    p_t = (-1)*np.log(p)
     print('sum', p)
    # p_t = chi2.sf(p,deg_of_free)
     print('like',p_t)
