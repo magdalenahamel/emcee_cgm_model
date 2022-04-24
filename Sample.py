@@ -396,7 +396,7 @@ class Sample:
             random_inclis_i = np.degrees(np.arcsin(random_inclis_i))
 
 
-            model = cgm.Disco(h, random_inclis_i, Rcore=0.1)
+            model = Disco(h, random_inclis_i, Rcore=0.1)
             cells = get_cells(model,d_i,alpha_i,csize, random_r_vir_i,prob_r_cs,random_vels_i,hv,self.filling_factor,  rmax, por_r_vir)
             results = [0]*1
             results = [get_clouds(cells[0],cells[1],cells[2],cells[3]) for x in results]
