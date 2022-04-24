@@ -181,7 +181,7 @@ def TPCF(params):
     results_tpcf_face_edge = []
 
     exp_fill_fac = sample.Sample(prob_hit_log_lin,200,sample_size=200, csize=csize, h=hs, hv=hv)
-    e3_a_1 = exp_fill_fac.Nielsen_sample(np.log(100),bs,0.2)
+    e3_a_1 = exp_fill_fac.get_spec_TPCF(np.log(100),bs,0.2,[5,90],[0,45])
     cond_spec = e3_a_1[0] == 0
     spec_abs = e3_a_1[1][~cond_spec]
     alphas_abs = e3_a_1[2][~cond_spec]
