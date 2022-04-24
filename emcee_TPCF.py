@@ -314,7 +314,7 @@ def loglikelihood(params):
     #print('deg', deg_of_free)
     #p=np.sum((ydata-y)**2 / sigma**2)
     p=np.sum(-1.0*(ydata-y)**2/(2*sigma)**2)
-    #logerr = (-0.5 * np.log(2.0 * math.pi * sigma**2))
+    logerr = (-0.5 * np.log(2.0 * math.pi * sigma**2))
     print('sum', p)
    # p_t = chi2.sf(p,deg_of_free)
     return(np.nansum(logerr + p))
