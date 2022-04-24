@@ -390,11 +390,9 @@ class Sample:
             random_r_vir_i = (random_vels_i * u.km /u.second)*0.1/H
             random_r_vir_i = random_r_vir_i.to(u.kpc).value
 
-            sinivals = np.linspace(sin_incli_s,sin_incli_b,100)
-            f_D_i = RanDist(sinivals, sin_i_dist(sinivals,np.radians(5.7)))
             random_inclis_i = f_D_i.random(1)
+            #print('inclis rad', random_inclis_i )
             random_inclis_i = np.degrees(np.arcsin(random_inclis_i))
-
   
             model = Disco(h, random_inclis_i, Rcore=0.1)
             cells = get_cells(model,d_i,alpha_i,csize, random_r_vir_i,prob_r_cs,random_vels_i,hv,self.filling_factor,  rmax, por_r_vir)
