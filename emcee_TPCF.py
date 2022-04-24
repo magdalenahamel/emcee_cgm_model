@@ -197,7 +197,7 @@ def TPCF(params):
 
     #spec_face = spec_abs[cond_face]
     #spec_edge = spec_abs[cond_edge]
-    spec_abs = e3_a_1[1]
+    specs_abs = e3_a_1[1]
     specs_tot = (specs_abs,'major')
     #specs_tot_i = [(spec_face,'face'), (spec_edge, 'edge')]
 
