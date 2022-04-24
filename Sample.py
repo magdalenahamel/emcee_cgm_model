@@ -213,8 +213,8 @@ def get_cells(model,D,alpha,size,r_0,p_r_0, vR,hv,prob_func,  rmax, por_r_vir):
     z2 = -h/2
     b = -1
     zgrid = np.arange((-h/2) + (size/2), (h/2) + (size/2), size)
-    #print('y1', y1)
-    #print('size',size)
+    print('y1', y1)
+    print('size',size)
     ymin = int(y1/size) * size + (size/2)
     ymax = int(y2/size)*size +(size/2)
 
