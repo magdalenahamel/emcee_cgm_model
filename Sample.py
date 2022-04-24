@@ -329,8 +329,8 @@ class Sample:
         hv = self.hv
         sample_size = self.sample_size
 
-        incli_s = incli[0]
-        incli_b = incli[1]
+        inclis_s = incli[0]
+        inclis_b = incli[1]
         sin_incli_s = np.arcsin(np.radians(inclis_s))
         sin_incli_b = np.arcsin(np.radians(inclis_b))
         alpha_s = alpha[0]
