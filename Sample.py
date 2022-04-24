@@ -403,7 +403,8 @@ class Sample:
                 b = fNb.random(len(results[0]))
                 speci = averagelos(model, d_i, alpha_i, wave, 1,1, zabs, csize, b, 0, random_vels_i, hv, 0, results)
                 random_specs.append(speci)
-                random_nr_clouds.append(results_nr[0])
+                random_nr_clouds.append(results_nr)
+                print('nr. clouds', results_nr)
                 equi_wid_i = csu.eq_w(speci, vels_wave, random_vels_i, zabs,  w_pix)
                 random_equi_wid.append(equi_wid_i)
                 i = i+1
