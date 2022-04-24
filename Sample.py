@@ -204,7 +204,7 @@ def get_cells(model,D,alpha,size,r_0,p_r_0, vR,hv,prob_func,  rmax, por_r_vir):
     x0 = D * np.cos(np.radians(alpha))
     y0 = D*np.sin(np.radians(alpha))/np.cos(np.radians(incli))
     n = -m*y0
-    #print('y0,alpha,incli',y0,alpha,incli)
+    print('y0,alpha,incli',y0,alpha,incli)
     y1 = ((h/2)-n)/m
     y2 = (-(h/2)-n)/m
     #print('hnm', h,n,m)
