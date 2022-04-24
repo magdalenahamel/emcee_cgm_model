@@ -182,23 +182,23 @@ def TPCF(params):
 
     exp_fill_fac = sample.Sample(prob_hit_log_lin,200,sample_size=200, csize=csize, h=hs, hv=hv)
     e3_a_1 = exp_fill_fac.get_spec_TPCF(np.log(100),bs,0.2,[5,90],[0,45])
-    cond_spec = e3_a_1[0] == 0
-    spec_abs = e3_a_1[1][~cond_spec]
-    alphas_abs = e3_a_1[2][~cond_spec]
-    inclis_abs = e3_a_1[6][~cond_spec]
-    cond_major = alphas_abs < 45
+    #cond_spec = e3_a_1[0] == 0
+    #spec_abs = e3_a_1[1][~cond_spec]
+    #alphas_abs = e3_a_1[2][~cond_spec]
+    #inclis_abs = e3_a_1[6][~cond_spec]
+    #cond_major = alphas_abs < 45
     #cond_minor = alphas_abs > 45
 
     #cond_face = inclis_abs < 57
     #cond_edge = inclis_abs > 57
 
     #spec_minor = spec_abs[cond_minor]
-    specs_major = spec_abs[cond_major]
+    #specs_major = spec_abs[cond_major]
 
     #spec_face = spec_abs[cond_face]
     #spec_edge = spec_abs[cond_edge]
-
-    specs_tot = (specs_major,'major')
+    spec_abs = e3_a_1[1]
+    specs_tot = (specs_abs,'major')
     #specs_tot_i = [(spec_face,'face'), (spec_edge, 'edge')]
 
 
