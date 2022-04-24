@@ -317,6 +317,111 @@ class Sample:
         self.csize=csize
         self.hv=hv
         self.sample_size=sample_size
+        
+    def get_spec_TPCF(self,  prob_r_cs, rmax, por_r_vir, incli, alpha, size = 50):
+        dmax = self.dmax
+        filling_factor = self.filling_factor
+        dmax = self.dmax
+        h = self.h
+        w_pix = self.w_pix
+        zabs = self.zabs
+        csize = self.csize
+        hv = self.hv
+        sample_size = self.sample_size
+
+        incli_s = incli[0]
+        incli_b = incli[1]
+        sin_incli_s = np.arcsin(np.radians(inclis_s))
+        sin_incli_b = np.arcsin(np.radians(inclis_b))
+        alpha_s = alpha[0]
+        alpha_b = alpha[1]
+
+        i = 0
+        xs = np.linspace(-dmax,dmax,2*dmax)
+        ys = np.linspace(-dmax,dmax,2*dmax)
+        x, y = np.meshgrid(xs, ys)
+        d_alpha_t = csu.xy2alpha(x, y)
+
+        ds = []
+        alphas = []
+        for i in range(len(d_alpha_t[0])):
+            for j in range(len(d_alpha_t[0][0])):
+                if d_alpha_t[0][i][j]>dmax:
+                    pass
+                else:
+                    ds.append(d_alpha_t[0][i][j])
+                    alphas.append(d_alpha_t[1][i][j])
+
+
+        z_median = np.median(z_gal_magiicat)
+        R_vir_min = np.min(R_vir_magiicat)
+        R_vir_max = np.max(R_vir_magiicat)
+
+        cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
+        H = cosmo.H(z_median)
+        vel_min = R_vir_min * u.kpc * H / 0.1
+        vel_min = vel_min.to(u.km/u.second).value
+
+        vel_max = R_vir_max * u.kpc * H / 0.1
+        vel_max = vel_max.to(u.km/u.second).value
+
+        vels = np.linspace(vel_min,vel_max,1000)
+
+        vels_dist = rot_vel_dist(vels,0.061,10**2.06, 0.66, 2.10)
+
+
+
+
+        random_nr_clouds = []
+        random_specs = []
+        random_alphas = []
+        random_im_par = []
+        random_vels = []
+        random_b = []
+        random_inclis = []
+        random_r_vir = []
+        random_equi_wid = []
+
+        i = 0
+        while i < size:
+            alpha_i = np.random.uniform(alpha_s, alpha_b)
+            d_i = f_D_C.random(1)
+            random_vels_i = f_v.random(1)
+            random_r_vir_i = (random_vels_i * u.km /u.second)*0.1/H
+            random_r_vir_i = random_r_vir_i.to(u.kpc).value
+
+            sinivals = np.linspace(sin_incli_s,sin_incli_b,100)
+            f_D_i = RanDist(sinivals, sin_i_dist(sinivals,np.radians(5.7)))
+            random_inclis_i = f_D_i.random(1)
+            random_inclis_i = np.degrees(np.arcsin(random_inclis_i))
+
+
+            model = cgm.Disco(h, random_inclis_i, Rcore=0.1)
+            cells = get_cells(model,d_i,alpha_i,csize, random_r_vir_i,prob_r_cs,random_vels_i,hv,self.filling_factor,  rmax, por_r_vir)
+            results = [0]*1
+            results = [get_clouds(cells[0],cells[1],cells[2],cells[3]) for x in results]
+            results_nr = len(results[0])
+            if results_nr > 0:
+                b = fNb.random(len(results[0]))
+                speci = averagelos(model, d_i, alpha_i, wave, 1,1, zabs, csize, b, 0, random_vels_i, hv, 0, results)
+                random_specs.append(speci)
+                random_nr_clouds.append(results_nr[0])
+                equi_wid_i = csu.eq_w(speci, vels_wave, random_vels_i, zabs,  w_pix)
+                random_equi_wid.append(equi_wid_i)
+                i = i+1
+            else:
+                pass
+            #print(i)
+
+        return(np.asarray([np.asarray(random_nr_clouds),
+        np.asarray(random_specs),
+        np.asarray(alpha_i),
+        np.asarray(d_i),
+        np.asarray(random_vels_i),
+        np.asarray(random_b),
+        np.asarray(random_inclis_i),
+        np.asarray(random_r_vir_i),
+        np.asarray(random_equi_wid)]))
 
 
     def Nielsen_sample(self, prob_r_cs, rmax, por_r_vir):
