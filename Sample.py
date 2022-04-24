@@ -318,7 +318,7 @@ class Sample:
         self.hv=hv
         self.sample_size=sample_size
         
-    def get_spec_TPCF(self,  prob_r_cs, rmax, por_r_vir, incli, alpha, size = 50):
+    def get_spec_TPCF(self,  prob_r_cs, rmax, por_r_vir, incli, alpha, size_i = 50):
         dmax = self.dmax
         filling_factor = self.filling_factor
         dmax = self.dmax
@@ -383,7 +383,7 @@ class Sample:
         random_equi_wid = []
 
         i = 0
-        while i < size:
+        while i < size_i:
             alpha_i = np.random.uniform(alpha_s, alpha_b)
             d_i = f_D_C.random(1)
             random_vels_i = f_v.random(1)
@@ -395,7 +395,7 @@ class Sample:
             random_inclis_i = f_D_i.random(1)
             random_inclis_i = np.degrees(np.arcsin(random_inclis_i))
 
-
+  
             model = Disco(h, random_inclis_i, Rcore=0.1)
             cells = get_cells(model,d_i,alpha_i,csize, random_r_vir_i,prob_r_cs,random_vels_i,hv,self.filling_factor,  rmax, por_r_vir)
             results = [0]*1
