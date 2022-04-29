@@ -161,8 +161,8 @@ def absdif(bla, bla2):
 def TPCF_1(params):
     #bs = params[0] # characteristic radius of the exponential function (it is accually a porcentage of Rvir) in log scale to make the range more homogeneous in lin scale
     #csize = params[1] #poner en escala mas separada
-    hs = params[2] #bajar un poco para que no sea un  1,10,20
-    hv = (10**(params[3])) * hs #deje h_v como una fraccion de la altura h. Tiene mas sentido para mi 
+    hs = params[0] #bajar un poco para que no sea un  1,10,20
+    hv = (10**(params[1])) * hs #deje h_v como una fraccion de la altura h. Tiene mas sentido para mi 
 
     zabs = 0.656
     lam0 = 2796.35
@@ -385,7 +385,7 @@ def loglikelihood(params):
         totprior *= tophatPrior(param, parammins[ii], parammaxs[ii])
         if totprior == 0:
             return(0)
-    yt = TPCF(params)
+    yt = TPCF_1(params)
     y = yt[:-3]
     print('yyyy', y)
     #print('W,D', model_Wr,model_D_R_vir )
