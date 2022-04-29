@@ -158,6 +158,78 @@ def absdif(bla, bla2):
     b = bla[1]
     return(abs(a -b))
 
+def TPCF_1(params):
+    #bs = params[0] # characteristic radius of the exponential function (it is accually a porcentage of Rvir) in log scale to make the range more homogeneous in lin scale
+    #csize = params[1] #poner en escala mas separada
+    hs = params[2] #bajar un poco para que no sea un  1,10,20
+    hv = (10**(params[3])) * hs #deje h_v como una fraccion de la altura h. Tiene mas sentido para mi 
+
+    zabs = 0.656
+    lam0 = 2796.35
+
+    vel_min = -1500
+    vel_max = 1500
+    lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+    lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
+
+    w_spectral = 0.03
+
+    wave = np.arange(lam_min,lam_max+w_spectral, w_spectral)
+    vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs))) - 1))
+
+    results_tpcf_minor_major = []
+    results_tpcf_face_edge = []
+
+    exp_fill_fac = sample.Sample(prob_hit_log_lin,200,sample_size=200, csize=csize, h=hs, hv=hv)
+    e3_a_1 = exp_fill_fac.get_spec_TPCF(np.log(100),bs,0.2,[5,90],[0,45])
+    #cond_spec = e3_a_1[0] == 0
+    #spec_abs = e3_a_1[1][~cond_spec]
+    #alphas_abs = e3_a_1[2][~cond_spec]
+    #inclis_abs = e3_a_1[6][~cond_spec]
+    #cond_major = alphas_abs < 45
+    #cond_minor = alphas_abs > 45
+
+    #cond_face = inclis_abs < 57
+    #cond_edge = inclis_abs > 57
+
+    #spec_minor = spec_abs[cond_minor]
+    #specs_major = spec_abs[cond_major]
+
+    #spec_face = spec_abs[cond_face]
+    #spec_edge = spec_abs[cond_edge]
+    specs_abs = e3_a_1[1]
+    specs_tot = (specs_abs,'major')
+    #specs_tot_i = [(spec_face,'face'), (spec_edge, 'edge')]
+
+
+    print('empieza TPCF')
+    results = TPCF_aux(specs_tot)
+    #results = map(TPCF, specs_major)
+    #list_res = list(results)
+
+    #results_tpcf_minor_major.append(list_res[0])
+    #results_tpcf_minor_major.append(list_res[1])
+
+    #results_i = map(TPCF, specs_tot_i)
+    #list_res_i = list(results_i)
+
+    #results_tpcf_face_edge.append(list_res_i[0])
+    #results_tpcf_face_edge.append(list_res_i[1])
+
+
+
+    #results_nr_clouds.append(e3_a_1[0])
+    #results_specs.append(e3_a_1[1])
+    #results_alphas.append(e3_a_1[2])
+    #results_D.append(e3_a_1[3])
+    #results_vels.append(e3_a_1[4])
+    #results_b.append(e3_a_1[5])
+    #results_inclis.append(e3_a_1[6])
+    #results_R_vir.append(e3_a_1[7])
+    #results_Wr.append(e3_a_1[8])
+
+    return(results)
+
 def TPCF(params):
     bs = params[0] # characteristic radius of the exponential function (it is accually a porcentage of Rvir) in log scale to make the range more homogeneous in lin scale
     csize = params[1] #poner en escala mas separada
@@ -241,9 +313,16 @@ def TPCF(params):
 #sigma = None #Define the error in the ydata (float or same shape as ydata)
 
 ###### for running for parameters ############
-paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
-parammins =  [0.01, 0.01,1,-3] #Define the minimum values for each parameter
-parammaxs = [10, 10, 50, 3] #Define the maximum values for each parameter
+
+bs = 3
+csize = 1
+paramnames = ['h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
+parammins =  [1,-3] #Define the minimum values for each parameter
+parammaxs = [50, 3] #Define the maximum values for each parameter
+
+#paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
+#parammins =  [0.01, 0.01,1,-3] #Define the minimum values for each parameter
+#parammaxs = [10, 10, 50, 3] #Define the maximum values for each parameter
 
 ####### for running two parameters ###########
 #paramnames = ['bs', 'cs'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
@@ -254,12 +333,12 @@ parammaxs = [10, 10, 50, 3] #Define the maximum values for each parameter
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
 nwalkers = 20 # Number of walkers
-nsteps = 8000#Number of steps each walker takes
+nsteps = 4000#Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=20
 
 
-filename = "try_12_TPCF.h5"
+filename = "try_13_TPCF.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -373,7 +452,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_12_TPCF.pdf')
+fig.savefig('mcmc_chains_13_TPCF.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -382,6 +461,6 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_12_TPCF.pdf')
+fig1.savefig('mcmc_corner_13_TPCF.pdf')
 
 bot.sendMessage(2079147193, 'Codigo listo TPCF:)')
