@@ -138,7 +138,7 @@ def ndist(n, beta = 1.5 ):
     return n**-beta
 
 def losspec(model,lam,velos,X, b,z):
-    nvals = np.logspace(12.6, 16, 1000)
+    nvals = np.logspace(11, 16, 1000)
     fN = RanDist(nvals, ndist(nvals))
 
     Ns = fN.random(len(velos))
