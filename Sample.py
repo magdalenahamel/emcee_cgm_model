@@ -27,6 +27,11 @@ import datetime
 
 from disco import Disco
 
+dat_N_b = pd.read_csv('table4-zlim1_12842.ascii', delim_whitespace=True)
+N_churchill = dat_N_b['N-MgII'].to_numpy()
+b_churchill = dat_N_b['b-MgII'].to_numpy()
+z_churchill = dat_N_b['zabs'].to_numpy()
+
 #### Define the spectral resolution ####
 
 
@@ -107,8 +112,12 @@ f_v = RanDist(v_vals, v_dist_magii)
 def ndist(n, beta = 1.5 ):
     return n**-beta
 
-nvals = np.logspace(12.6, 16, 1000)
-fN = RanDist(nvals, ndist(nvals))
+nvals = np.logspace(11, 16, 1000)
+#fN = RanDist(nvals, ndist(nvals))
+N_dist_churchill = np.histogram(N_churchill,bins=np.logspace(np.log10(np.min(N_churchill)),np.log10(15), 51))[0]
+                              
+N_vals = np.logspace(np.log10(np.min(N_churchill)),np.log10(15),50)
+fN = RanDist(N_vals, N_dist_churchill)
 
 
 #### Model fuctions ####
@@ -138,11 +147,10 @@ def ndist(n, beta = 1.5 ):
     return n**-beta
 
 def losspec(model,lam,velos,X, b,z):
-    nvals = np.logspace(11, 16, 1000)
-    fN = RanDist(nvals, ndist(nvals))
-
-    Ns = fN.random(len(velos))
-        #print(Ns)
+    Nst = fN.random(len(velos))
+    
+    Ns = 10**(Nst)
+    
     N = np.empty([len(velos), 1])
     for i in range(len(Ns)):
         N[i,0]=Ns[i]
