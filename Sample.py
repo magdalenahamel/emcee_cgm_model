@@ -212,7 +212,7 @@ def get_cells(model,D,alpha,size,r_0,p_r_0, vR,hv,prob_func,  rmax, por_r_vir):
     x0 = D * np.cos(np.radians(alpha))
     y0 = D*np.sin(np.radians(alpha))/np.cos(np.radians(incli))
     n = -m*y0
-    print('y0,alpha,incli',y0,alpha,incli)
+    #print('y0,alpha,incli',y0,alpha,incli)
     y1 = ((h/2)-n)/m
     y2 = (-(h/2)-n)/m
     #print('hnm', h,n,m)
@@ -221,8 +221,8 @@ def get_cells(model,D,alpha,size,r_0,p_r_0, vR,hv,prob_func,  rmax, por_r_vir):
     z2 = -h/2
     b = -1
     zgrid = np.arange((-h/2) + (size/2), (h/2) + (size/2), size)
-    print('y1', y1)
-    print('size',size)
+    #print('y1', y1)
+    #print('size',size)
     ymin = int(y1/size) * size + (size/2)
     ymax = int(y2/size)*size +(size/2)
 
@@ -412,7 +412,7 @@ class Sample:
                 speci = averagelos(model, d_i, alpha_i, wave, 1,1, zabs, csize, b, 0, random_vels_i, hv, 0, results)
                 random_specs.append(speci)
                 random_nr_clouds.append(results_nr)
-                print('nr. clouds', results_nr)
+                #print('nr. clouds', results_nr)
                 equi_wid_i = csu.eq_w(speci, vels_wave, random_vels_i, zabs,  w_pix)
                 random_equi_wid.append(equi_wid_i)
                 i = i+1
