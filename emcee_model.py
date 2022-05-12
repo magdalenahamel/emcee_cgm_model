@@ -25,12 +25,12 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import SkyCoord
 import corner 
-import telepot
+#import telepot
 import matplotlib
 matplotlib.use('Agg')
 
-bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
-bot.sendMessage(2079147193, 'Empezó codico MCMC')
+#bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
+#bot.sendMessage(2079147193, 'Empezó codico MCMC')
 
 def prob_hit_log_lin(r, r_vir, a, b, por_r_vir = 0.5):
     r_t = r/r_vir
@@ -96,49 +96,6 @@ def EW_D_model(params):
 
     return(X1,Y1)
 
-##### for running 2 params #####
-'''def EW_D_model(params):
-    bs = params[0] # characteristic radius of the exponential function (it is accually a porcentage of Rvir) in log scale to make the range more homogeneous in lin scale
-    csize = params[1] #poner en escala mas separada
-    hs = 10 #bajar un poco para que no sea un  1,10,20
-    hv = 60 #bajar maximo a 100
-
-    zabs = 0.656
-    lam0 = 2796.35
-
-    vel_min = -1500
-    vel_max = 1500
-    lam_min = ((vel_min/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
-    lam_max = ((vel_max/const.c.to('km/s').value)+1)*(lam0*(1+zabs))
-
-    w_spectral = 0.03
-
-    wave = np.arange(lam_min,lam_max+w_spectral, w_spectral)
-    vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs))) - 1))
-
-### run the model in the parameter grid
-
-    results_Wr = []
-    results_D = []
-    results_R_vir = []
-    results_specs = []
-    results_tpcf_minor = []
-    results_tpcf_major = []
-
-    exp_fac = sample.Sample(prob_hit_log_lin,200,sample_size=200, csize=csize, h=hs, hv=hv)
-    exp_results_1 = exp_fac.Nielsen_sample(np.log(100),bs,0.2)
-
-    E_W_r = exp_results_1[8]
-    D = exp_results_1[3]
-    R_vir = exp_results_1[7]
-
-    X1 = D/R_vir
-    Y1 = E_W_r
-    condY1 = Y1 > 0.03
-    X1 = X1[condY1]
-    Y1 = Y1[condY1]
-
-    return(X1,Y1)'''
 
 
 #define likelihood function
@@ -297,22 +254,11 @@ def boot_sample(params):
 
 xdata = D_R_vir_churchill_iso  #array with (x,y) data coordinates (degrees)
 ydata = W_r_churchill_iso
-#sigma = out_l[:,5][~np.isnan(out_l[:,4])]
-#
-#
-#xdata = None #Define the x-value array of your data
-#ydata = None #Define the y-value array of your data (same shape as xdata)
-#sigma = None #Define the error in the ydata (float or same shape as ydata)
 
 ###### for running for parameters ############
 paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
 parammins =  [0.5, 0.01,1,-4] #Define the minimum values for each parameter
 parammaxs = [10, 10, 50, 5] #Define the maximum values for each parameter
-
-####### for running two parameters ###########
-#paramnames = ['bs', 'cs'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
-#parammins =  [0.01, 0.01] #Define the minimum values for each parameter
-#parammaxs = [10, 10] #Define the maximum values for each parameter
 
 
 #Define the properties of the MCMC sampler/modelling
@@ -390,19 +336,6 @@ def loglikelihood(params):
     return(np.log(p))
 
 
-'''def loglikelihood(params):
-    #Define the probability that the model, given a set of parameters, is a good fit.
-
-    #Get the associated y-value for the given the model parameters
-    #y = get_v(params)
-    print('aaaa', params)
-    y = EW_D_model(params)
-
-    #Calculate the log likelihood and return
-    #Sigma is the error on the y-data
-    #return np.nansum(-1.0*(ydata-y)**2 / sigma**2) #Gaussian function is likelihood for least squares fitting
-    return(loglikelihood(y))'''
-
 def logPosterior(params):
     #The  function MCMC evaluates; Bayes theorem in log space
     #p(model params | data) * p(data)
@@ -413,7 +346,9 @@ def logPosterior(params):
 ######################
 #Setup the MCMC sampler and run it!
 
-sampler = emcee.EnsembleSampler(nwalkers, ndim, logPosterior, backend=backend, a=3)
+from multiprocessing import Pool
+
+
 
 #Define the starting position of each walker, for each parameter
 init_guess = np.zeros((nwalkers,ndim))
@@ -423,9 +358,11 @@ for ii, pmin in enumerate(parammins):
 
 
 #Run the mcmc sampler!
-sampler.run_mcmc(init_guess, nsteps, progress=True)
+with Pool() as pool:
+    sampler = emcee.EnsembleSampler(nwalkers, ndim, logPosterior, backend=backend,pool=pool)
+    sampler.run_mcmc(init_guess, nsteps, progress=True)
 
-bot.sendMessage(2079147193, 'mcmc listo')
+
 
 ##############################
 #Playing with the output of the sampler
@@ -456,5 +393,4 @@ data = chains[:, nburn:, :]
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
 fig1.savefig('mcmc_corner_19.pdf')
 
-bot.sendMessage(2079147193, 'Codigo listo :)')
 
