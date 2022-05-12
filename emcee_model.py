@@ -266,10 +266,10 @@ ndim = len(paramnames) #Number of model parameters
 nwalkers = 200 # Number of walkers
 nsteps = 8000 #Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
-nburn=1
+nburn=100
 
 
-filename = "try_19.h5"
+filename = "try_20.h5"
 backend = emcee.backends.HDFBackend(filename)
 backend.reset(nwalkers, ndim)
 
@@ -382,7 +382,7 @@ for pp in range(len(parammins)):
     for ww in range(nwalkers):
         axs[pp].plot(np.arange(0, nsteps, 1.0), chains[ww, :, pp], rasterized=True)
 
-fig.savefig('mcmc_chains_19.pdf')
+fig.savefig('mcmc_chains_20.pdf')
 
 
 #Make a corner plot (how each parameter scales with another)
@@ -391,6 +391,6 @@ data = chains[:, nburn:, :]
 
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
-fig1.savefig('mcmc_corner_19.pdf')
+fig1.savefig('mcmc_corner_20.pdf')
 bot.sendMessage(2079147193, 'Ternimo codico MCMC')
 
