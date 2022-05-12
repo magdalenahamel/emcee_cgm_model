@@ -359,7 +359,7 @@ def totalprior(params, parammins, parammaxs):
     #Loop through each parameter
     for ii, param in enumerate(params):
         totprior *= tophatPrior(param, parammins[ii], parammaxs[ii])
-    print('cccccc', params, totprior)
+    #print('cccccc', params, totprior)
     return totprior
 
 
@@ -386,7 +386,7 @@ def loglikelihood(params):
         ps.append(pi)
 
     p = np.mean(ps)
-    print('like', np.log(p))
+    #print('like', np.log(p))
     return(np.log(p))
 
 
