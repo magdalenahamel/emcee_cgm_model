@@ -258,10 +258,10 @@ ydata = W_r_churchill_iso
 ###### for running for parameters ############
 paramnames = ['bs', 'cs','h', 'hv'] # Define the labels for each parameter (make sure they are in the same order as parammins/parammaxs)
 parammins =  [0.5, 0.01,1,-4] #Define the minimum values for each parameter
-parammaxs = [10, 10, 50, 5] #Define the maximum values for each parameter
+parammaxs = [10, 10, 70, 5] #Define the maximum values for each parameter
 
 
-#Define the properties of the MCMC sampler/modelling
+#Define the properties of the MCMC sam70pler/modelling
 ndim = len(paramnames) #Number of model parameters
 nwalkers = 200 # Number of walkers
 nsteps = 8000 #Number of steps each walker takes
