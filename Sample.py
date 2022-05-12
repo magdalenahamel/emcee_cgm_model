@@ -508,10 +508,10 @@ class Sample:
         partial_get_niel_samp = functools.partial(get_nielsen_sample,  prob_r_cs,csize,hv, filling_factor,rmax,por_r_vir, zabs,h, wave, vels_wave, w_pix)
         
         
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            results = list(executor.map(partial_get_niel_samp, partial_params))
+        #with concurrent.futures.ProcessPoolExecutor() as executor:
+            #results = list(executor.map(partial_get_niel_samp, partial_params))
             #result_list= list(results)
-       
+        results = list(map(partial_get_niel_samp, partial_params))
         #print('executor.map ready')
         #print('result_list',results)
         random_equi_wid = [r[0] for r in results]
