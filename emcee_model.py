@@ -263,10 +263,10 @@ parammaxs = [10, 10, 50, 5] #Define the maximum values for each parameter
 
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
-nwalkers = 20 # Number of walkers
-nsteps = 8000 #Number of steps each walker takes
+nwalkers = 200 # Number of walkers
+nsteps = 10 #Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
-nburn=20
+nburn=1
 
 
 filename = "try_19.h5"
