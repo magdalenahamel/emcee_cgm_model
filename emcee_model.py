@@ -25,12 +25,12 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.coordinates import SkyCoord
 import corner 
-#import telepot
+import telepot
 import matplotlib
 matplotlib.use('Agg')
 
-#bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
-#bot.sendMessage(2079147193, 'Empezó codico MCMC')
+bot = telepot.Bot('5106282512:AAFwfJ144PNtf9LwOP_o7Qmc6qrLNH8qEM8')
+bot.sendMessage(2079147193, 'Empezó codico MCMC')
 
 def prob_hit_log_lin(r, r_vir, a, b, por_r_vir = 0.5):
     r_t = r/r_vir
@@ -264,7 +264,7 @@ parammaxs = [10, 10, 50, 5] #Define the maximum values for each parameter
 #Define the properties of the MCMC sampler/modelling
 ndim = len(paramnames) #Number of model parameters
 nwalkers = 200 # Number of walkers
-nsteps = 10 #Number of steps each walker takes
+nsteps = 8000 #Number of steps each walker takes
 #Define a burn-in; i.e. the first nburn steps to ignore
 nburn=1
 
@@ -392,5 +392,5 @@ data = chains[:, nburn:, :]
 #Make the corner plot
 fig1= corner.corner(data.reshape(data.shape[0]*data.shape[1], data.shape[2]), labels=paramnames)
 fig1.savefig('mcmc_corner_19.pdf')
-
+bot.sendMessage(2079147193, 'Ternimo codico MCMC')
 
