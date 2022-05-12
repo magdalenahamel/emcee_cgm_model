@@ -58,7 +58,7 @@ z_gal_magiicat = magiicat_iso['z_gal'].to_numpy()
 
 D_R_v_magiicat = np.array((D_magiicat,R_vir_magiicat, v_magiicat, z_gal_magiicat)).T
 
-churchill_iso = data_r_vir = pd.read_csv('Churchill_iso_full.txt', error_bad_lines=False, delim_whitespace=True, dtype=object)
+churchill_iso = data_r_vir = pd.read_csv('Churchill_iso_full.txt', error_bad_lines=False, delim_whitespace=True)
 D_R_vir_churchill_iso = churchill_iso['etav'].to_numpy()
 W_r_churchill_iso = churchill_iso['Wr'].to_numpy()
 D_churchill_iso = churchill_iso['D'].to_numpy()
