@@ -50,7 +50,7 @@ vels_wave = (const.c.to('km/s').value * ((wave/ (lam0 * (1 + zabs_))) - 1))
 
 ##### Data ####
 
-magiicat_iso = data_r_vir = pd.read_csv('magiicat_isolated.txt', on_bad_lines=False, delim_whitespace=True)
+magiicat_iso = data_r_vir = pd.read_csv('magiicat_isolated.txt', on_bad_lines='skip', delim_whitespace=True)
 D_magiicat = magiicat_iso['D'].to_numpy()
 R_vir_magiicat = D_magiicat/magiicat_iso['D/R_vir'].to_numpy()
 v_magiicat = magiicat_iso['V_circ'].to_numpy()
@@ -58,7 +58,7 @@ z_gal_magiicat = magiicat_iso['z_gal'].to_numpy()
 
 D_R_v_magiicat = np.array((D_magiicat,R_vir_magiicat, v_magiicat, z_gal_magiicat)).T
 
-churchill_iso = data_r_vir = pd.read_csv('Churchill_iso_full.txt', on_bad_lines=False, delim_whitespace=True, dtype=object)
+churchill_iso = data_r_vir = pd.read_csv('Churchill_iso_full.txt', on_bad_lines='skip', delim_whitespace=True, dtype=object)
 D_R_vir_churchill_iso = churchill_iso['etav'].to_numpy()
 W_r_churchill_iso = churchill_iso['Wr'].to_numpy()
 D_churchill_iso = churchill_iso['D'].to_numpy()
