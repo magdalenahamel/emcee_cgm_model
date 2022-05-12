@@ -36,7 +36,7 @@ def prob_hit_log_lin(r, r_vir, a, b, por_r_vir = 0.5):
     r_t = r/r_vir
     return(np.exp(a)*(np.exp(-b*r_t)))
 
-churchill_iso = pd.read_csv('Churchill_iso_full.txt', on_bad_lines='skip', delim_whitespace=True)
+churchill_iso = pd.read_csv('Churchill_iso_full.txt', error_bad_lines=False, delim_whitespace=True)
 W_r_churchill_iso = churchill_iso['Wr'].to_numpy()
 D_R_vir_churchill_iso = churchill_iso['etav'].to_numpy()
 e_Wr = churchill_iso['eWr'].to_numpy()
